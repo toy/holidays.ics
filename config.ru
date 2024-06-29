@@ -19,7 +19,6 @@ helpers do
   def flag_emoji(region)
     return unless region.length == 2
     return if region == 'ru' # https://war.ukraine.ua/
-    region = 'gr' if region == 'el' # https://github.com/holidays/definitions/pull/273
 
     region.upcase.chars.map{ |char| 0x1f1a5 + char.ord }.pack('U*')
   end

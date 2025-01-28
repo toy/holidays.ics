@@ -1,9 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '~> 3.0'
-
-gem 'rack', '> 2'
-gem 'sinatra', '> 3'
 gem 'holidays', '~> 8.8'
 gem 'icalendar', '~> 2.10'
-gem 'puma', '~> 6.5'
+gem 'progress', '~> 3.6'
+gem 'rake'
+gem 'logger'
+gem 'base64'

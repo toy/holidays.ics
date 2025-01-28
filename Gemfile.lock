@@ -8,41 +8,20 @@ GEM
       ostruct
     ice_cube (0.17.0)
     logger (1.6.1)
-    mustermann (3.0.3)
-      ruby2_keywords (~> 0.0.1)
-    nio4r (2.7.4)
     ostruct (0.6.0)
-    puma (6.5.0)
-      nio4r (~> 2.0)
-    rack (3.1.8)
-    rack-protection (4.1.1)
-      base64 (>= 0.1.0)
-      logger (>= 1.6.0)
-      rack (>= 3.0.0, < 4)
-    rack-session (2.0.0)
-      rack (>= 3.0.0)
-    ruby2_keywords (0.0.5)
-    sinatra (4.1.1)
-      logger (>= 1.6.0)
-      mustermann (~> 3.0)
-      rack (>= 3.0.0, < 4)
-      rack-protection (= 4.1.1)
-      rack-session (>= 2.0.0, < 3)
-      tilt (~> 2.0)
-    tilt (2.4.0)
+    progress (3.6.0)
+    rake (13.2.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  base64
   holidays (~> 8.8)
   icalendar (~> 2.10)
-  puma (~> 6.5)
-  rack (> 2)
-  sinatra (> 3)
-
-RUBY VERSION
-   ruby 3.3.0p0
+  logger
+  progress (~> 3.6)
+  rake
 
 BUNDLED WITH
    2.5.6

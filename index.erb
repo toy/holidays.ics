@@ -20,27 +20,25 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const inputs = document.querySelectorAll('input')
-      const links = document.querySelectorAll('a[href^="webcal://"]')
+      const links = document.querySelectorAll('a[data-path]')
 
       const update = () => {
-        const add = []
-        const remove = []
+        const filters = []
         inputs.forEach(input => {
           if (input.checked) {
-            add.push(input.name)
-          } else {
-            remove.push(input.name)
+            filters.push(input.name)
           }
         })
         links.forEach(a => {
-          const url = new URL(a.href)
-          add.forEach(name => url.searchParams.set(name, 'x'))
-          remove.forEach(name => url.searchParams.delete(name))
-          a.href = url.href
+          const url = new URL([...filters, a.dataset.path].join('/'), window.location)
+          url.protocol = 'webcal:'
+          a.href = url.href.replace(/\w+:/, 'webcal:')
         })
       }
 
       inputs.forEach(input => input.addEventListener('change', update))
+
+      update()
     })
   </script>
 </head>
@@ -49,9 +47,8 @@
 
   <p>
     <a href="https://github.com/toy/holidays.ics">holidays.ics</a> is made with the help of
-    <a href="https://github.com/holidays/holidays">holidays</a>,
-    <a href="https://github.com/icalendar/icalendar">icalendar</a> and
-    <a href="https://sinatrarb.com">sinatra</a>.
+    <a href="https://github.com/holidays/holidays">holidays</a> and
+    <a href="https://github.com/icalendar/icalendar">icalendar</a>
   </p>
 
   <p>
@@ -60,7 +57,7 @@
   </p>
 
   <ul>
-    <% COUNTRY_REGIONS.group_by{ |region| region.split('_', 2)[0] }.each do |group, regions| %>
+    <% country_regions.group_by{ |region| region.split('_', 2)[0] }.each do |group, regions| %>
       <li>
         <% if regions.delete(group) %>
           <%= webcal_link group %>
@@ -75,7 +72,7 @@
   </ul>
 
   <ul>
-    <% OTHER_REGIONS.each do |region| %>
+    <% other_regions.each do |region| %>
       <li>
         <%= webcal_link region %>
       </li>

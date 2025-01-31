@@ -6,6 +6,8 @@ require 'icalendar'
 
 use Rack::Deflater
 
+set :host_authorization, {}
+
 helpers do
   def h(text)
     Rack::Utils.escape_html(text)

@@ -56,6 +56,15 @@ get '/:region.ics' do
     end
   end
 
+  new_url = "https://ivan-kuchin.gitlab.io/holidays.ics/#{(filters + [region]).join('/')}.ics"
+
+  cal.event do |e|
+    e.dtstart = Icalendar::Values::Date.new(today)
+    e.dtend = Icalendar::Values::Date.new(today + 7)
+    e.summary = "Service is moving, change url to #{new_url}"
+    e.url = new_url
+  end
+
   content_type 'text/calendar'
   cal.to_ical
 end

@@ -8,78 +8,21 @@
     body {
       font: 15px "Myriad Pro", "Helvetica", Arial, sans-serif;
     }
-    ul {
-      padding: 0;
-    }
-    li {
-      display: inline-block;
-      list-style: none;
-      margin: 0 2em 1em 0;
-    }
   </style>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const inputs = document.querySelectorAll('input')
-      const links = document.querySelectorAll('a[href^="webcal://"]')
-
-      const update = () => {
-        const add = []
-        const remove = []
-        inputs.forEach(input => {
-          if (input.checked) {
-            add.push(input.name)
-          } else {
-            remove.push(input.name)
-          }
-        })
-        links.forEach(a => {
-          const url = new URL(a.href)
-          add.forEach(name => url.searchParams.set(name, 'x'))
-          remove.forEach(name => url.searchParams.delete(name))
-          a.href = url.href
-        })
-      }
-
-      inputs.forEach(input => input.addEventListener('change', update))
-    })
-  </script>
 </head>
 <body>
   <h1>holidays.ics</h1>
 
   <p>
-    <a href="https://github.com/toy/holidays.ics">holidays.ics</a> is made with the help of
+    <a href="https://gitlab.com/ivan-kuchin/holidays.ics">holidays.ics</a> is made with the help of
     <a href="https://github.com/holidays/holidays">holidays</a>,
     <a href="https://github.com/icalendar/icalendar">icalendar</a> and
     <a href="https://sinatrarb.com">sinatra</a>.
   </p>
 
   <p>
-    <label><input type="checkbox" name="informal" /> include informal</label> (<a href="https://github.com/holidays/definitions/blob/master/doc/SYNTAX.md#formalinformal">description</a>)
-    <label><input type="checkbox" name="observed" /> observed dates</label> (<a href="https://github.com/holidays/definitions/blob/master/doc/SYNTAX.md#observed">description</a>)
+    This service is moving to <a href="https://ivan-kuchin.gitlab.io/holidays.ics/">https://ivan-kuchin.gitlab.io/holidays.ics/</a>.
+    Render.com limitation makes it problematic to have more than one app on free tier (getting «This service has been suspended.» at the end of the month) and this service can be easily converted to a static site with scheduled updates.
   </p>
-
-  <ul>
-    <% COUNTRY_REGIONS.group_by{ |region| region.split('_', 2)[0] }.each do |group, regions| %>
-      <li>
-        <% if regions.delete(group) %>
-          <%= webcal_link group %>
-        <% else %>
-          <span><%= flag_emoji group %> <%= h group %></span>
-        <% end %>
-        <% unless regions.empty? %>
-          (<%= regions.map { |region| webcal_link region }.join(', ') %>)
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-
-  <ul>
-    <% OTHER_REGIONS.each do |region| %>
-      <li>
-        <%= webcal_link region %>
-      </li>
-    <% end %>
-  </ul>
 </body>
 </html>

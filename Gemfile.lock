@@ -3,12 +3,14 @@ GEM
   specs:
     base64 (0.2.0)
     holidays (8.8.0)
-    icalendar (2.10.3)
+    icalendar (2.11.0)
+      base64
       ice_cube (~> 0.16)
+      logger
       ostruct
     ice_cube (0.17.0)
     logger (1.6.5)
-    ostruct (0.6.0)
+    ostruct (0.6.1)
     progress (3.6.0)
     rake (13.2.1)
 

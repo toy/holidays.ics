@@ -1,5 +1,5 @@
 default:
-  image: ruby:3
+  image: ruby:4
 
 build:
   rules:

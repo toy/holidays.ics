@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     base64 (0.3.0)
-    holidays (8.8.0)
+    holidays (9.1.1)
     icalendar (2.12.2)
       base64
       ice_cube (~> 0.16)
@@ -19,7 +19,7 @@ PLATFORMS
 
 DEPENDENCIES
   base64
-  holidays (~> 8.8)
+  holidays (~> 9.0)
   icalendar (~> 2.10)
   logger
   progress (~> 3.6)

@@ -68,7 +68,7 @@ task :build do
   end
 
   dst.join('index.html').write!(
-    ERB.new(File.read('index.erb')).result(binding)
+    ERB.new(File.read('index.html.erb')).result(binding)
   )
 
   %w[favicon.svg robots.txt].each do |basename|

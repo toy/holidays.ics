@@ -37,6 +37,7 @@ task :build do
   abort if regions.any?{ _1 =~ /[^a-z_]/ }
 
   parent = Holidays::PARENT_REGION_LOOKUP
+  region_names = Hash.new{ |h, region| h[region] = Holidays.region_name(region) }
 
   country_regions, other_regions = regions.sort.partition{ |region| parent[region].length == 2 }
 
@@ -61,6 +62,21 @@ task :build do
           cal.event do |e|
             e.dtstart = Icalendar::Values::Date.new(holiday[:date])
             e.summary = holiday[:name]
+
+            # filter out regions from other countries
+            parent_region = parent[region]
+            holiday_regions = holiday[:regions].select{ |r| parent[r] == parent_region }
+
+            unless holiday_regions == [region]
+              e.description = case
+              when holiday_regions == [parent_region]
+                "in whole #{region_names[parent_region]}"
+              when holiday_regions.include?(region)
+                "also in #{region_names.values_at(*holiday_regions - [region]).join(', ')}"
+              else
+                "in #{region_names.values_at(*holiday_regions).join(', ')}"
+              end
+            end
           end
         end
 

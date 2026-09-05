@@ -36,7 +36,9 @@ task :build do
   regions = Holidays.available_regions
   abort if regions.any?{ _1 =~ /[^a-z_]/ }
 
-  country_regions, other_regions = regions.sort.partition{ |region| region.to_s.split('_', 2)[0].length == 2 }
+  parent = Holidays::PARENT_REGION_LOOKUP
+
+  country_regions, other_regions = regions.sort.partition{ |region| parent[region].length == 2 }
 
   dst = Pathname('public')
   dst.rmtree

@@ -57,12 +57,12 @@
   </p>
 
   <ul>
-    <% country_regions.group_by{ |region| region.to_s.split('_', 2)[0] }.each do |group, regions| %>
+    <% country_regions.group_by{ |region| parent[region] }.each do |group, regions| %>
       <li>
         <% if regions.delete(group) %>
           <%= webcal_link group %>
         <% else %>
-          <span><%= flag_emoji group %> <%= h group %></span>
+          <span><%= flag_emoji group %> <%= h group.to_s %></span>
         <% end %>
         <% unless regions.empty? %>
           (<%= regions.map { |region| webcal_link region }.join(', ') %>)

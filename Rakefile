@@ -17,15 +17,15 @@ module Helpers
   end
 
   def webcal_link(region)
-    text = "#{flag_emoji region} #{h region.tr('_', '-')}".strip
-    %Q{<a data-path="#{h region}.ics">#{text}</a>}
+    text = "#{flag_emoji region} #{h region.to_s.tr('_', '-')}".strip
+    %Q{<a data-path="#{h region.to_s}.ics">#{text}</a>}
   end
 
   def flag_emoji(region)
     return unless region.length == 2
     return if region == 'ru' # https://war.ukraine.ua/
 
-    region.upcase.chars.map{ |char| 0x1f1a5 + char.ord }.pack('U*')
+    region.to_s.upcase.chars.map{ |char| 0x1f1a5 + char.ord }.pack('U*')
   end
 end
 
@@ -33,10 +33,10 @@ desc 'build'
 task :build do
   include Helpers
 
-  regions = Holidays.available_regions.map(&:to_s)
+  regions = Holidays.available_regions
   abort if regions.any?{ _1 =~ /[^a-z_]/ }
 
-  country_regions, other_regions = regions.sort.partition{ |region| region.split('_', 2)[0].length == 2 }
+  country_regions, other_regions = regions.sort.partition{ |region| region.to_s.split('_', 2)[0].length == 2 }
 
   dst = Pathname('public')
   dst.rmtree
@@ -51,7 +51,7 @@ task :build do
       regions.with_progress do |region|
         cal = Icalendar::Calendar.new
 
-        cal.append_custom_property('X-WR-CALNAME', "Holidays: #{region.tr('_', '-')}")
+        cal.append_custom_property('X-WR-CALNAME', "Holidays: #{region.to_s.tr('_', '-')}")
         cal.append_custom_property('X-PUBLISHED-TTL', 'P1W')
         cal.append_custom_property('X-APPLE-CALENDAR-COLOR', '#aa0112')
 

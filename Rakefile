@@ -41,6 +41,7 @@ task :build do
 
   country_regions, other_regions = regions.sort.partition{ |region| parent[region].length == 2 }
 
+  src = Pathname(__dir__)
   dst = Pathname('public')
   dst.rmtree
 
@@ -86,10 +87,10 @@ task :build do
   end
 
   dst.join('index.html').write!(
-    ERB.new(File.read('index.html.erb')).result(binding)
+    ERB.new(src.join('index.html.erb').read).result(binding)
   )
 
   %w[favicon.svg robots.txt].each do |basename|
-    dst.join(basename).write!(File.read(basename))
+    dst.join(basename).write!(src.join(basename).read)
   end
 end

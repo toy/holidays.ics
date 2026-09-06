@@ -31,7 +31,6 @@
         })
         links.forEach(a => {
           const url = new URL([...filters, a.dataset.path].join('/'), window.location)
-          url.protocol = 'webcal:'
           a.href = url.href.replace(/\w+:/, 'webcal:')
         })
       }

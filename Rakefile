@@ -23,7 +23,7 @@ module Helpers
 
   def flag_emoji(region)
     return unless region.length == 2
-    return if region == 'ru' # https://war.ukraine.ua/
+    return if region == :ru # https://war.ukraine.ua/
 
     region.to_s.upcase.chars.map{ |char| 0x1f1a5 + char.ord }.pack('U*')
   end

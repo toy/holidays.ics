@@ -26,7 +26,7 @@ module Helpers
 
   def webcal_link(region)
     text = "#{flag_emoji region} #{h region.to_s.tr('_', '-')}".strip
-    %Q{<a data-path="#{h region.to_s}.ics">#{text}</a>}
+    %Q{<a data-path="#{h region.to_s}.ics" title="#{h REGION_NAMES[region]}">#{text}</a>}
   end
 
   def flag_emoji(region)

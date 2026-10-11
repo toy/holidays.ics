@@ -4,8 +4,13 @@ require 'icalendar'
 require 'pathname'
 require 'progress'
 
-PARENT_LOOKUP = Holidays::PARENT_REGION_LOOKUP
+PARENT_LOOKUP = Holidays::PARENT_REGION_LOOKUP.dup
 REGION_NAMES = Hash.new{ |h, region| h[region] = Holidays.region_name(region) }
+
+PARENT_LOOKUP.select{ |region, parent| region != parent && parent !~ /\A[a-z]{2}(\z|_)/ }.tap do |wrong_parents|
+  abort 'remove the wrong parents fix' if wrong_parents.empty?
+  wrong_parents.each{ |region, parent| PARENT_LOOKUP[region] = region }
+end
 
 Pathname.class_eval do
   def write!(content)

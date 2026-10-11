@@ -17,7 +17,7 @@ end
 Pathname.class_eval do
   def write!(content)
     dirname.mkpath
-    write(content)
+    write(content) unless size? && read == content
   end
 end
 

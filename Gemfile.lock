@@ -2,7 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     base64 (0.3.0)
-    holidays (11.6.0)
+    holidays (11.7.0)
     icalendar (2.12.5)
       base64
       ice_cube (~> 0.16)

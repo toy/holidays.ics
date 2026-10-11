@@ -19,12 +19,14 @@ PARENT_LOOKUP.select{ |region, parent| region != parent && parent !~ /\A[a-z]{2}
   wrong_parents.each{ |region, parent| PARENT_LOOKUP[region] = region }
 end
 
-Pathname.class_eval do
-  def write!(content)
-    dirname.mkpath
-    write(content) unless size? && read == content
+using(Module.new do
+  refine Pathname do
+    def write!(content)
+      dirname.mkpath
+      write(content) unless size? && read == content
+    end
   end
-end
+end)
 
 module Helpers
   def h(text)

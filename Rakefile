@@ -39,7 +39,7 @@ task :build do
   parent = Holidays::PARENT_REGION_LOOKUP
   region_names = Hash.new{ |h, region| h[region] = Holidays.region_name(region) }
 
-  country_regions, other_regions = regions.sort.partition{ |region| parent[region].length == 2 }
+  country_regions, other_regions = regions.sort.partition{ |region| region =~ /\A[a-z]{2}(\z|_)/ }
 
   src = Pathname(__dir__)
   dst = Pathname('public')

@@ -4,6 +4,9 @@ require 'icalendar'
 require 'pathname'
 require 'progress'
 
+PARENT_LOOKUP = Holidays::PARENT_REGION_LOOKUP
+REGION_NAMES = Hash.new{ |h, region| h[region] = Holidays.region_name(region) }
+
 Pathname.class_eval do
   def write!(content)
     dirname.mkpath
@@ -36,9 +39,6 @@ task :build do
   regions = Holidays.available_regions
   abort if regions.any?{ _1 =~ /[^a-z_]/ }
 
-  parent = Holidays::PARENT_REGION_LOOKUP
-  region_names = Hash.new{ |h, region| h[region] = Holidays.region_name(region) }
-
   country_regions, other_regions = regions.sort.partition{ |region| region =~ /\A[a-z]{2}(\z|_)/ }
 
   src = Pathname(__dir__)
@@ -65,17 +65,17 @@ task :build do
             e.summary = holiday[:name]
 
             # filter out regions from other countries
-            parent_region = parent[region]
-            holiday_regions = holiday[:regions].select{ |r| parent[r] == parent_region }
+            parent = PARENT_LOOKUP[region]
+            holiday_regions = holiday[:regions].select{ |r| PARENT_LOOKUP[r] == parent }
 
             unless holiday_regions == [region]
               e.description = case
-              when holiday_regions == [parent_region]
-                "in whole #{region_names[parent_region]}"
+              when holiday_regions == [parent]
+                "in whole #{REGION_NAMES[parent]}"
               when holiday_regions.include?(region)
-                "also in #{region_names.values_at(*holiday_regions - [region]).join(', ')}"
+                "also in #{REGION_NAMES.values_at(*holiday_regions - [region]).join(', ')}"
               else
-                "in #{region_names.values_at(*holiday_regions).join(', ')}"
+                "in #{REGION_NAMES.values_at(*holiday_regions).join(', ')}"
               end
             end
           end

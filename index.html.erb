@@ -72,7 +72,7 @@
   </p>
 
   <ul>
-    <% country_regions.group_by{ |region| parent[region] }.each do |group, regions| %>
+    <% country_regions.group_by{ |region| PARENT_LOOKUP[region] }.each do |group, regions| %>
       <li>
         <% if regions.delete(group) %>
           <%= webcal_link group %>
